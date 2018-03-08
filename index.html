@@ -1,0 +1,172 @@
+
+<html>
+    <head>
+        <title>¯\_(ツ)_/¯</title>
+        <meta name="title" content="¯\_(ツ)_/¯" />
+        <meta name="description" content="¯\_(ツ)_/¯ as PWA" />
+        <meta name="keywords" content="¯\_(ツ)_/¯, shrug, shrug, shrug emoji" />
+        <meta name="author" content="Amit Merchant @amit_merchant" />
+        <meta name="github" content="https://github.com/amitmerchant1990/shrug-pwa" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+
+        <meta name="theme-color" content="#673AB7">    
+        <meta name="application-name" content="Shrug">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Shrug" />
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="" />
+        <meta property="og:description" content="Shrug PWA" />
+        <meta property="og:image" content="">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Shrug" />
+        <meta name="twitter:url" content="" />
+        <meta name="twitter:description" content="Shrug PWA" />
+        <meta name="twitter:image" content="" />
+        <meta name="twitter:creator" content="@amit_merchant" />
+
+        <!-- Add to home screen -->
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="manifest" href="manifest.json">
+
+        <style>
+        ::selection {
+            background: transparent;
+        }
+
+        body {
+            background-color: #f7f7f7;
+            color: #222;
+            font-family: 'Open Sans', 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 100px;
+            border: none;
+            outline: none;
+            background: transparent;
+        }
+
+        span{
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #4CAF50;
+            transition: color 0.25s;
+        }
+
+        span.click { top: 20px; font-size: .8rem; display: block; }
+        span.tap { top: 20px; font-size: 1.5rem; display: none; }
+
+        @media (max-device-width: 800px) {
+            span.click { display: none; }
+            span.tap { display: block; }
+            input {font-size: 4rem; }
+        }
+
+        /* The snackbar - position it at the bottom and in the middle of the screen */
+        #snackbar {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -141px;
+            background-color: #333;
+            color: #fff;
+            text-align: center; 
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+        }
+
+        #snackbar.show {
+            visibility: visible; /* Show the snackbar */
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;} 
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;} 
+            to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+
+
+        </style>
+    </head>
+    <body>
+  
+      <span class="click">Click anywhere on the screen to copy</span>
+      <span class="tap">Tap anywhere to copy</span>
+      <div id="snackbar">Copied!</div>
+  
+      <input value="¯\_(ツ)_/¯" id="shrug" readonly />
+  
+      <script>
+        var shrug = document.getElementById('shrug');
+  
+        shrug.focus();
+        shrug.select();
+  
+        var timeout;
+        
+        function showSnackbar() {
+            var x = document.getElementById("snackbar")
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2000);
+        }
+
+        document.addEventListener('copy', function(e) {
+            if (e.target === shrug) {
+                showSnackbar();
+            }
+        });
+  
+        document.addEventListener('click', function(e) {
+            try {
+                document.execCommand('copy');
+                showSnackbar();
+            } catch(e) {
+                console.log(e);
+            }
+  
+            shrug.focus();
+            shrug.select();
+        });
+
+        // Registering ServiceWorker
+        if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ',    registration.scope);
+        }).catch(function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+        });
+        }
+        
+      </script>
+  
+    </body>
+  </html>
+  
