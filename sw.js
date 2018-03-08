@@ -1,5 +1,3 @@
-importScripts('cache-polyfill.js');
-
 var CACHE_VERSION = 'shrugpwa-v2';
 var CACHE_FILES = [
     '/',
